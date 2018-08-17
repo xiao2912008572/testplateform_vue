@@ -10,7 +10,7 @@ import Main from './components/Main'
 import ApiManagement from './components/api/ApiManagement'
 import SqlManagement from './components/sql/SqlManagement'
 import PluginManagement from './components/plugin/PluginManagement'
-import SingleProject from './components/project/SingleProject.vue'
+import SingleProject from './components/project/SingleProject'
 
 Vue.config.productionTip = false;
 

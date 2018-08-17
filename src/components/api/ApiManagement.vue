@@ -44,10 +44,6 @@
                 <el-button size="mini" type="primary"> 详情</el-button>
               </router-link>
 
-              <!-- <el-button size="mini" type="primary">
-                使用scope.$index来获取行数索引
-                <router-link v-bind:to="'/singleProject/'+ tableData[scope.$index].projectID">详情</router-link>
-              </el-button> -->
             </template>
           </el-table-column>
         </el-table>
@@ -115,5 +111,6 @@ export default {
 a {
   text-decoration: none;
   color: #fff;
+  margin: 0 10px;
 }
 </style>
