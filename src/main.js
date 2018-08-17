@@ -12,6 +12,17 @@ import SqlManagement from './components/sql/SqlManagement'
 import PluginManagement from './components/plugin/PluginManagement'
 import SingleProject from './components/project/SingleProject'
 
+// 二级路由
+import ProjectOverview from './components/api/project/ProjectOverview'
+import ApiDocument from './components/api/project/ApiDocument.vue'
+import ApiQucikTest from './components/api/project/ApiQucikTest.vue'
+import ApiAutoTest from './components/api/project/ApiAutoTest.vue'
+import StatusCode from './components/api/project/StatusCode.vue'
+import ProjectDocument from './components/api/project/ProjectDocument.vue'
+import EnvManagement from './components/api/project/EnvManagement.vue'
+import CoopManagement from './components/api/project/CoopManagement.vue'
+import ProjectNews from './components/api/project/ProjectNews.vue'
+
 Vue.config.productionTip = false;
 
 Vue.use(ElementUI);
@@ -20,11 +31,24 @@ Vue.use(VueResource);
 
 const routes = [
   //给路由添加name属性
-  {'path': '/', name: "mainLink", redirect: '/apimanagement', component: Main},
-  {'path': '/apiManagement', name: "apiManagementLink", component: ApiManagement},
-  {'path': '/sqlManagement', name: "sqlManagementLink", component: SqlManagement},
-  {'path': '/pluginManagement', name: "pluginManagementLink", component: PluginManagement},
-  {'path': '/singleProject/:id', name: "singleProject", component: SingleProject}
+  { 'path': '/', name: "mainLink", redirect: '/apiManagement', component: Main },
+
+  // project相关路由
+  { 'path': '/apiManagement', name: "apiManagementLink", component: ApiManagement },
+  { 'path': '/projectOverview', name: "projectOverviewLink", component: ProjectOverview },
+  { 'path': '/apiDocument', name: "apiDocumentLink", component: ApiDocument },
+  { 'path': '/apiQucikTest', name: "apiQucikTestLink", component: ApiQucikTest },
+  { 'path': '/apiAutoTest', name: "apiAutoTestLink", component: ApiAutoTest },
+  { 'path': '/statusCode', name: "statusCodeLink", component: StatusCode },
+  { 'path': '/projectDocument', name: "projectDocumentLink", component: ProjectDocument },
+  { 'path': '/envManagement', name: "envManagementLink", component: EnvManagement },
+  { 'path': '/coopManagement', name: "coopManagementLink", component: CoopManagement },
+  { 'path': '/projectNews', name: "projectNewsLink", component: ProjectNews },
+
+
+  { 'path': '/sqlManagement', name: "sqlManagementLink", component: SqlManagement },
+  { 'path': '/pluginManagement', name: "pluginManagementLink", component: PluginManagement },
+  { 'path': '/singleProject/:id', name: "singleProject", component: SingleProject }
 
 
 ];
@@ -37,6 +61,6 @@ const router = new VueRouter({
 new Vue({
   el: '#app',
   router,
-  components: {App},
+  components: { App },
   template: '<App/>'
 });
