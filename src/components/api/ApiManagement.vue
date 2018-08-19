@@ -3,9 +3,14 @@
     <el-row>
       <!--<el-button v-on:click="" type="primary" style="margin-bottom: 20px">新增项目</el-button>-->
       <!--模态对话框-->
-      <!-- Form -->
       <el-col>
-        <el-button type="primary" style="margin-bottom: 20px" @click="dialogFormVisible = true">新增项目</el-button>
+        <div style="background:#f2f2f2;padding:10px;">
+          <el-button size="medium" type="primary" @click="dialogFormVisible = true">
+            新增项目
+          </el-button>
+        </div>
+
+        <!-- 模态对话框主体 -->
         <el-dialog title="新增项目" :visible.sync="dialogFormVisible">
           <el-form :label-position="labelPosition" label-width="80px" :model="project">
             <el-form-item label="项目名称">
@@ -30,9 +35,9 @@
       </el-col>
 
       <!--表格-->
-      <el-col>
+      <el-col style="padding-top:10px;">
         <!-- :row-style="{height:'30px'}" -->
-        <el-table :data="tableData" stripe style="width: 100%">
+        <el-table :data="tableData" stripe style="width: 100%" :header-cell-style="{background:'#eef1f6',color:'#1f2d3d'}">
           <el-table-column prop="projectName" label="项目名称" width="160px"></el-table-column>
           <el-table-column prop="projectVersion" label="版本号" width="130px"></el-table-column>
           <el-table-column prop="projectType" label="类型" width="130px"></el-table-column>
@@ -72,6 +77,10 @@ export default {
   name: "api-management",
   data() {
     return {
+      formInline: {
+        user: "",
+        region: ""
+      },
       tableData: [],
       dialogVisible: false,
       dialogFormVisible: false,
@@ -147,7 +156,13 @@ export default {
   created() {
     // ⚠️ 获取项目列表
     this.$http
-      .get("http://127.0.0.1:8000/api/v1/project/list/", { emulateJSON: true })
+      // .get("http://127.0.0.1:8000/api/v1/project/list/", { emulateJSON: true })
+      .get("http://127.0.0.1:8000/api/v1/project/list/", {
+        params: {
+          page: 1,
+          per_page: 13
+        }
+      })
       .then(data => {
         console.log(data);
         this.tableData = data.body.projects;

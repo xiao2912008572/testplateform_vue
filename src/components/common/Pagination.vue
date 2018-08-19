@@ -24,8 +24,10 @@ export default {
 };
 </script>
 <style scoped>
-.el-pagination{
+.el-pagination {
   text-align: right;
   margin-top: 20px;
+  background: #f2f2f2;
+  padding: 10px;
 }
 </style>
