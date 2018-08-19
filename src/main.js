@@ -28,6 +28,10 @@ Vue.config.productionTip = false;
 Vue.use(ElementUI);
 Vue.use(VueRouter);
 Vue.use(VueResource);
+//如果服务器无法处理编码为application/json的请求，可以启用emulateJSON选项。启用之后，请求会以application/x-www-form-urlencoded为MIME type，就像普通的HTML表单一样。
+Vue.http.options.emulateJSON = true;
+
+
 
 const routes = [
   //给路由添加name属性
