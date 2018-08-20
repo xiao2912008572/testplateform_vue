@@ -63,7 +63,7 @@
 
       <!-- 第三列：因为宽度为100% 所以挤下来成了第三行 -->
       <el-col>
-        <page-footer></page-footer>
+        <pagination v-on:projectChanged="updateProjects($event)" v-bind:page="page"></pagination>
       </el-col>
     </el-row>
 
@@ -72,17 +72,13 @@
 </template>
 
 <script>
-import Pagination from "./../common/Pagination";
+import Pagination from "../api/project/Pagination";
 export default {
   name: "api-management",
   data() {
     return {
-      formInline: {
-        user: "",
-        region: ""
-      },
-      tableData: [],
-      dialogVisible: false,
+      tableData: [], // 项目数组
+      dialogVisible: false, // 对话框是否可见
       dialogFormVisible: false,
       labelPosition: "right",
       project: {
@@ -112,11 +108,15 @@ export default {
           value: "5",
           label: "其他"
         }
-      ]
+      ],
+      page: {
+        total: 0, // 记录总数
+        page_size: 0 // 页面大小规格
+      }
     };
   },
   components: {
-    pageFooter: Pagination
+    pagination: Pagination
   },
   methods: {
     handleEdit(index, row) {
@@ -135,7 +135,11 @@ export default {
         })
         .catch(_ => {});
     },
-    // 确认按钮实现
+    // 更新项目展示列表
+    updateProjects(data) {
+      this.tableData = data;
+    },
+    // 新增项目：确认按钮实现
     confirm: function() {
       // ⚠️ 新增项目api
       this.$http
@@ -156,7 +160,6 @@ export default {
   created() {
     // ⚠️ 获取项目列表
     this.$http
-      // .get("http://127.0.0.1:8000/api/v1/project/list/", { emulateJSON: true })
       .get("http://127.0.0.1:8000/api/v1/project/list/", {
         params: {
           page: 1,
@@ -165,7 +168,14 @@ export default {
       })
       .then(data => {
         console.log(data);
+        // 项目详情对象数组
         this.tableData = data.body.projects;
+
+        // 记录总条数
+        this.page.total = data.body.meta.total;
+
+        // 每页规格大小
+        this.page.page_size = data.body.meta.page_size;
       });
   }
 };
