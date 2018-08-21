@@ -8,6 +8,7 @@
           <el-button size="medium" type="primary" @click="dialogFormVisible = true">
             新增项目
           </el-button>
+          <toast></toast>
         </div>
 
         <!-- 模态对话框主体 -->
@@ -66,14 +67,17 @@
         <pagination v-on:projectChanged="updateProjects($event)" v-bind:page="page"></pagination>
       </el-col>
     </el-row>
-
   </el-container>
-
 </template>
 
 <script>
-import Pagination from "../api/project/Pagination";
+// 子组件
+import Pagination from "../common/Pagination";
+// import Toast from "../common/Notification";
+
 export default {
+  // 注入Container.vue中实现的依赖
+  inject: ["reload"],
   name: "api-management",
   data() {
     return {
@@ -110,6 +114,7 @@ export default {
         }
       ],
       page: {
+        url: "http://127.0.0.1:8000/api/v1/project/list/",
         total: 0, // 记录总数
         page_size: 0 // 页面大小规格
       }
@@ -117,6 +122,7 @@ export default {
   },
   components: {
     pagination: Pagination
+    // toast: Toast
   },
   methods: {
     handleEdit(index, row) {
@@ -125,9 +131,6 @@ export default {
     handleDelete(index, row) {
       console.log(index, row);
     },
-    addProject: function() {
-      alert("点击了新增项目按钮！");
-    },
     handleClose(done) {
       this.$confirm("确认关闭？")
         .then(_ => {
@@ -135,10 +138,12 @@ export default {
         })
         .catch(_ => {});
     },
+
     // 更新项目展示列表
     updateProjects(data) {
-      this.tableData = data;
+      this.tableData = data.body.projects;
     },
+
     // 新增项目：确认按钮实现
     confirm: function() {
       // ⚠️ 新增项目api
@@ -148,12 +153,38 @@ export default {
           projectName: this.project.name,
           projectVersion: this.project.version
         })
-        .then(data => {
-          console.log("response", data);
-        });
-      alert("点击了确定按钮！");
+        .then(
+          // 正确的回调
+          data => {
+            // console.log("response", data);
+            // 成功的通知
+            document.getElementById("successBtn").click();
+          },
+          // 错误的回调
+          data => {
+            // 错误的通知
+            document.getElementById("errorBtn").click();
+          }
+        );
       // 隐藏对话框
       this.dialogFormVisible = false;
+
+      // 刷新1
+      // window.location.reload(); // 刷新
+      // location.reload();
+
+      // 刷新2
+      // let NewPage = "_empty" + "?time=" + new Date().getTime() / 1000;
+      // // 之后将页面push进去
+      // this.$router.push(NewPage);
+      // // 再次返回上一页即可
+      // this.$router.go(-1);
+
+      // 刷新3
+      // this.$router.go(0);
+
+      // 刷新4：通过注入的依赖来控制路由
+      this.reload();
     }
   },
   // 在创建之前请求
@@ -168,6 +199,7 @@ export default {
       })
       .then(data => {
         console.log(data);
+
         // 项目详情对象数组
         this.tableData = data.body.projects;
 

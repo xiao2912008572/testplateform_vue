@@ -11,6 +11,7 @@ import ApiManagement from './components/api/ApiManagement'
 import SqlManagement from './components/sql/SqlManagement'
 import PluginManagement from './components/plugin/PluginManagement'
 import SingleProject from './components/project/SingleProject'
+import Notification from './components/common/Notification'
 
 // 二级路由
 import ProjectOverview from './components/api/project/ProjectOverview'
@@ -28,10 +29,12 @@ Vue.config.productionTip = false;
 Vue.use(ElementUI);
 Vue.use(VueRouter);
 Vue.use(VueResource);
+
 //如果服务器无法处理编码为application/json的请求，可以启用emulateJSON选项。启用之后，请求会以application/x-www-form-urlencoded为MIME type，就像普通的HTML表单一样。
 Vue.http.options.emulateJSON = true;
 
-
+// 全局组件注册
+Vue.component('toast', Notification);
 
 const routes = [
   //给路由添加name属性

@@ -1,30 +1,45 @@
 <template>
   <div class="block">
-    <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage4" :page-size="13" layout="total, prev, pager, next, jumper" :total=page.total>
+    <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :page-size="13" layout="total, prev, pager, next, jumper" :total=page.total>
     </el-pagination>
   </div>
 </template>
 <script>
 export default {
   name: "pagination",
-  methods: {
-    handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
-    },
-    handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
-      // 请求列表数据
-    }
-  },
   data() {
     return {
-      currentPage4: 4,
+      currentPage: 1,
+      tableData: []
     };
   },
   props: {
     page: {
       type: Object,
       required: true
+    }
+  },
+  methods: {
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`);
+    },
+    handleCurrentChange(val) {
+      this.currentPage = val;
+      // console.log(`当前页: ${val}`);
+
+      // ⚠️ 请求列表数据
+      this.$http
+        .get(this.page.url, {
+          params: {
+            page: this.currentPage,
+            per_page: 13
+          }
+        })
+        .then(data => {
+          this.tableData = data;
+          // 一旦点击触发，就注册一个事件
+          this.$emit("projectChanged", this.tableData);
+        });
     }
   }
 };
