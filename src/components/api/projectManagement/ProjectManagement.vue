@@ -5,14 +5,16 @@
       <!--模态对话框-->
       <el-col>
         <div style="background:#f2f2f2;padding:10px;">
-          <el-button size="medium" type="primary" @click="dialogFormVisible = true">
+          <el-button size="medium" type="primary" @click="handleAdd();dialogFormVisible = true">
             新增项目
           </el-button>
-          <toast></toast>
+
+          <!-- 通知组件 -->
+          <toast v-bind:toastObject="toastObject"></toast>
         </div>
 
         <!-- 模态对话框主体 -->
-        <el-dialog title="新增项目" :visible.sync="dialogFormVisible">
+        <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible">
           <el-form :label-position="labelPosition" label-width="80px" :model="project">
             <el-form-item label="项目名称">
               <el-input v-model="project.name" placeholder="1-32位字符串"></el-input>
@@ -38,7 +40,7 @@
       <!--表格-->
       <el-col style="padding-top:10px;">
         <!-- :row-style="{height:'30px'}" -->
-        <el-table :data="tableData" stripe style="width: 100%" :header-cell-style="{background:'#eef1f6',color:'#1f2d3d'}">
+        <el-table v-loading="loading" :data="tableData" stripe style="width: 100%" :header-cell-style="{background:'#eef1f6',color:'#1f2d3d'}">
           <el-table-column prop="projectName" label="项目名称" width="160px"></el-table-column>
           <el-table-column prop="projectVersion" label="版本号" width="130px"></el-table-column>
           <el-table-column prop="projectType" label="类型" width="130px"></el-table-column>
@@ -46,14 +48,15 @@
           <el-table-column prop="projectUpdateTime" label="最后修改时间"></el-table-column>
           <el-table-column prop="" label="操作">
             <template slot-scope="scope">
-              <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑
+              <el-button size="mini" @click="handleEdit(scope.$index, scope.row); dialogFormVisible = true">编辑
               </el-button>
 
               <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除
               </el-button>
 
               <!-- 利用scope.$index可以获取到行索引，从1开始 -->
-              <router-link v-bind:to="'/singleProject/'+ tableData[scope.$index].projectID">
+              <!-- 此页面跳转到项目概况中 -->
+              <router-link v-bind:to="'/projectOverview/'+ tableData[scope.$index].projectID">
                 <el-button size="mini" type="primary"> 详情</el-button>
               </router-link>
 
@@ -72,7 +75,7 @@
 
 <script>
 // 子组件
-import Pagination from "../common/Pagination";
+// import Pagination from "../common/Pagination";
 // import Toast from "../common/Notification";
 
 export default {
@@ -117,19 +120,81 @@ export default {
         url: "http://127.0.0.1:8000/api/v1/project/list/",
         total: 0, // 记录总数
         page_size: 0 // 页面大小规格
-      }
+      },
+      // 通知对象
+      toastObject: {
+        success_title: "",
+        success_message: "",
+        success_duration: 0,
+        warn_title: "",
+        warn_message: "",
+        warn_duration: 0,
+        message_title: "",
+        message_message: "",
+        message_duration: 0,
+        error_title: "",
+        error_message: "",
+        error_duration: 0
+      },
+      // 对话框标题
+      dialogTitle: "",
+      // '新增'或'编'的标记
+      tag: "",
+      // 行数据
+      rowNumber: 0,
+      // 加载标签
+      loading: true
     };
   },
-  components: {
-    pagination: Pagination
-    // toast: Toast
-  },
   methods: {
-    handleEdit(index, row) {
-      console.log(index, row);
+    detail() {
+      alert("你好");
     },
+
+    // 新增项目按钮
+    handleAdd() {
+      this.dialogTitle = "新增项目";
+      this.project.name = "";
+      this.project.version = "";
+      this.value = "";
+      this.tag = "add";
+    },
+
+    // 编辑项目按钮
+    handleEdit(index, row) {
+      this.dialogTitle = "编辑项目";
+      console.log(index, row);
+      this.project.name = row.projectName;
+      this.project.version = row.projectVersion;
+      this.value = row.projectType;
+      this.tag = "edit";
+      this.rowNumber = row.projectID;
+    },
+
+    // 删除项目详情
     handleDelete(index, row) {
       console.log(index, row);
+      console.log("projectID", row.projectID);
+      this.$http
+        .delete("http://127.0.0.1:8000/api/v1/project/", {
+          body: {
+            projectID: row.projectID
+          }
+        })
+        .then(
+          data => {
+            this.loading = true;
+            this.toastObject.success_message = "删除成功";
+            // 成功的通知
+            document.getElementById("successBtn").click();
+            // 刷新
+            this.reload();
+          },
+          data => {
+            this.loading = true;
+            console.log("failed", data);
+          }
+        );
     },
     handleClose(done) {
       this.$confirm("确认关闭？")
@@ -144,47 +209,62 @@ export default {
       this.tableData = data.body.projects;
     },
 
-    // 新增项目：确认按钮实现
+    // 新增项目：确认按钮实现,需要判断是新增还是编辑，两个接口不同数据
     confirm: function() {
       // ⚠️ 新增项目api
-      this.$http
-        .post("http://127.0.0.1:8000/api/v1/project/", {
-          projectType: 1,
-          projectName: this.project.name,
-          projectVersion: this.project.version
-        })
-        .then(
-          // 正确的回调
-          data => {
-            // console.log("response", data);
-            // 成功的通知
-            document.getElementById("successBtn").click();
-          },
-          // 错误的回调
-          data => {
-            // 错误的通知
-            document.getElementById("errorBtn").click();
-          }
-        );
+      if (this.tag === "add") {
+        this.$http
+          .post("http://127.0.0.1:8000/api/v1/project/", {
+            projectType: this.value,
+            projectName: this.project.name,
+            projectVersion: this.project.version
+          })
+          .then(
+            // 正确的回调
+            data => {
+              this.loading = true;
+              this.toastObject.success_message = "添加成功";
+              // 成功的通知
+              document.getElementById("successBtn").click();
+              // 刷新：通过注入的依赖来控制路由
+              this.reload();
+            },
+            // 错误的回调
+            data => {
+              // 错误的通知
+              this.loading = true;
+              document.getElementById("errorBtn").click();
+            }
+          );
+      } else if (this.tag === "edit") {
+        // ⚠️ 编辑项目api
+        this.$http
+          .put("http://127.0.0.1:8000/api/v1/project/", {
+            projectID: this.rowNumber,
+            projectType: this.value,
+            projectName: this.project.name,
+            projectVersion: this.project.version
+          })
+          .then(
+            // 正确的回调
+            data => {
+              this.loading = true;
+              this.toastObject.success_message = "编辑成功";
+              // 成功的通知
+              document.getElementById("successBtn").click();
+              // 刷新：通过注入的依赖来控制路由
+              this.reload();
+            },
+            // 错误的回调
+            data => {
+              this.loading = true;
+              // 错误的通知
+              document.getElementById("errorBtn").click();
+            }
+          );
+      }
       // 隐藏对话框
       this.dialogFormVisible = false;
-
-      // 刷新1
-      // window.location.reload(); // 刷新
-      // location.reload();
-
-      // 刷新2
-      // let NewPage = "_empty" + "?time=" + new Date().getTime() / 1000;
-      // // 之后将页面push进去
-      // this.$router.push(NewPage);
-      // // 再次返回上一页即可
-      // this.$router.go(-1);
-
-      // 刷新3
-      // this.$router.go(0);
-
-      // 刷新4：通过注入的依赖来控制路由
-      this.reload();
     }
   },
   // 在创建之前请求
@@ -199,7 +279,7 @@ export default {
       })
       .then(data => {
         console.log(data);
-
+        this.loading = false;
         // 项目详情对象数组
         this.tableData = data.body.projects;
 

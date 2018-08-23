@@ -17,13 +17,20 @@
 <script>
 export default {
   name: "toast",
+  props: {
+    toastObject: {
+      type: Object,
+      required: true
+    }
+  },
   methods: {
     open3() {
+      // console.log('message', this.toastObject.message);
       this.$notify({
         title: "成功",
-        message: "添加成功",
+        message: this.toastObject.success_message,
         type: "success",
-        duration: 1000
+        duration: 1500
       });
     },
 
@@ -38,6 +45,7 @@ export default {
     open5() {
       this.$notify.info({
         title: "消息",
+        // message: "这是一条消息的提示消息"
         message: "这是一条消息的提示消息"
       });
     },
@@ -45,7 +53,8 @@ export default {
     open6() {
       this.$notify.error({
         title: "失败",
-        message: "添加失败"
+        message: "添加失败",
+        duration: 1500
       });
     }
   }

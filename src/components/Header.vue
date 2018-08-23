@@ -11,7 +11,7 @@
       <el-col :span="20">
         <div class="grid-content bg-purple-light">
           <div class="logo el-col el-col-6 logo-width" style="color: white;">
-            中间部分
+            <!-- 中间部分 -->
           </div>
         </div>
       </el-col>

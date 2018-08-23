@@ -7,22 +7,23 @@ import 'element-ui/lib/theme-chalk/index.css';
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
 import Main from './components/Main'
-import ApiManagement from './components/api/ApiManagement'
+import ApiManagement from './components/api/projectManagement/ProjectManagement.vue'
 import SqlManagement from './components/sql/SqlManagement'
 import PluginManagement from './components/plugin/PluginManagement'
 import SingleProject from './components/project/SingleProject'
 import Notification from './components/common/Notification'
+import Pagination from './components/common/Pagination.vue'
 
 // 二级路由
-import ProjectOverview from './components/api/project/ProjectOverview'
-import ApiDocument from './components/api/project/ApiDocument.vue'
-import ApiQucikTest from './components/api/project/ApiQucikTest.vue'
-import ApiAutoTest from './components/api/project/ApiAutoTest.vue'
-import StatusCode from './components/api/project/StatusCode.vue'
-import ProjectDocument from './components/api/project/ProjectDocument.vue'
-import EnvManagement from './components/api/project/EnvManagement.vue'
-import CoopManagement from './components/api/project/CoopManagement.vue'
-import ProjectNews from './components/api/project/ProjectNews.vue'
+import ProjectOverview from './components/api/projectOverview/ProjectOverview.vue'
+import ApiDocument from './components/api/apiDocument/ApiDocument.vue'
+import ApiQucikTest from './components/api/apiQuickTest/ApiQucikTest.vue'
+import ApiAutoTest from './components/api/apiAutoTest/ApiAutoTest.vue'
+import StatusCode from './components/api/statusCode/StatusCode.vue'
+import ProjectDocument from './components/api/projectDocument/ProjectDocument.vue'
+import EnvManagement from './components/api/envManagement/EnvManagement.vue'
+import CoopManagement from './components/api/coopManagement/CoopManagement.vue'
+import ProjectNews from './components/api/projectNews/ProjectNews.vue'
 
 Vue.config.productionTip = false;
 
@@ -35,14 +36,15 @@ Vue.http.options.emulateJSON = true;
 
 // 全局组件注册
 Vue.component('toast', Notification);
+Vue.component('pagination',Pagination);
 
 const routes = [
   //给路由添加name属性
   { 'path': '/', name: "mainLink", redirect: '/apiManagement', component: Main },
 
   // project相关路由
-  { 'path': '/apiManagement', name: "apiManagementLink", component: ApiManagement },
-  { 'path': '/projectOverview', name: "projectOverviewLink", component: ProjectOverview },
+  { 'path': '/apiManagement', name: "apiManagementLink", component: ApiManagement }, // 项目管理
+  { 'path': '/projectOverview/:id', name: "projectOverviewLink", component: ProjectOverview },// 项目概况
   { 'path': '/apiDocument', name: "apiDocumentLink", component: ApiDocument },
   { 'path': '/apiQucikTest', name: "apiQucikTestLink", component: ApiQucikTest },
   { 'path': '/apiAutoTest', name: "apiAutoTestLink", component: ApiAutoTest },
