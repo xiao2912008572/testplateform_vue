@@ -57,8 +57,16 @@
               <!-- 利用scope.$index可以获取到行索引，从1开始 -->
               <!-- 此页面跳转到项目概况中 -->
               <router-link v-bind:to="'/projectOverview/'+ tableData[scope.$index].projectID">
-                <el-button size="mini" type="primary"> 详情</el-button>
+                <el-button size="mini" type="primary">详情</el-button>
               </router-link>
+              <!-- <router-link v-bind:to="'/Aside2'">
+                <el-button size="mini" type="primary">详情</el-button>
+              </router-link> -->
+
+              <!-- <router-link v-bind:to="'/sqlManagement/'">
+                <el-button size="mini" type="primary">详情</el-button>
+              </router-link> -->
+
 
             </template>
           </el-table-column>
@@ -147,10 +155,6 @@ export default {
     };
   },
   methods: {
-    detail() {
-      alert("你好");
-    },
-
     // 新增项目按钮
     handleAdd() {
       this.dialogTitle = "新增项目";

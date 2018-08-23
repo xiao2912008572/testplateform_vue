@@ -20,7 +20,7 @@ export default {
     this.$http
       .get("http://127.0.0.1:8000/api/v1/project/?project_id=" + this.id)
       .then(function(data) {
-        console.log("project", data);
+        // console.log("project", data);
         this.project = data.body;
       });
   }
