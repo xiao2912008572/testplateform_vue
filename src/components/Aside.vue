@@ -6,7 +6,7 @@
       <!-- {{$route.path}} -->
 
       <el-menu :default-active="linkUrl($route.path)" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" theme="dark" router style="background-color: #FAFAFA">
-        // show是为了控制显示或者不显示
+        <!-- show是为了控制显示或者不显示 -->
         <div v-show="show" id="menu1">
           <el-menu-item index="/apiManagement">
             <i class="el-icon-menu"></i>
@@ -27,8 +27,9 @@
         <!-- <el-menu-item-group> -->
         <div v-show="!show" id="menu2">
           <el-menu-item index="/apiManagement">
-            <i class="fa fa-cog icon"></i>
-            <span class="menu-item-font">项目管理</span>
+            <!-- <i class="fa fa-chevron-left icon"></i> -->
+            <i class="el-icon-back icon"></i>
+            <span class="menu-item-font">返回列表</span>
           </el-menu-item>
 
           <el-menu-item index="/projectOverview">

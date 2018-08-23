@@ -82,10 +82,6 @@
 </template>
 
 <script>
-// 子组件
-// import Pagination from "../common/Pagination";
-// import Toast from "../common/Notification";
-
 export default {
   // 注入Container.vue中实现的依赖
   inject: ["reload"],
@@ -167,7 +163,7 @@ export default {
     // 编辑项目按钮
     handleEdit(index, row) {
       this.dialogTitle = "编辑项目";
-      console.log(index, row);
+      // console.log(index, row);
       this.project.name = row.projectName;
       this.project.version = row.projectVersion;
       this.value = row.projectType;
@@ -177,8 +173,8 @@ export default {
 
     // 删除项目详情
     handleDelete(index, row) {
-      console.log(index, row);
-      console.log("projectID", row.projectID);
+      // console.log(index, row);
+      // console.log("projectID", row.projectID);
       this.$http
         .delete("http://127.0.0.1:8000/api/v1/project/", {
           body: {
@@ -282,7 +278,9 @@ export default {
         }
       })
       .then(data => {
-        console.log(data);
+        // 打印返回数据
+        // console.log(data);
+
         this.loading = false;
         // 项目详情对象数组
         this.tableData = data.body.projects;
