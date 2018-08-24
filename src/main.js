@@ -6,6 +6,8 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
+
+import global_ from './components/Global.vue'
 import Main from './components/Main'
 import ApiManagement from './components/api/projectManagement/ProjectManagement.vue'
 import SqlManagement from './components/sql/SqlManagement'
@@ -36,7 +38,10 @@ Vue.http.options.emulateJSON = true;
 
 // 全局组件注册
 Vue.component('toast', Notification);
-Vue.component('pagination',Pagination);
+Vue.component('pagination', Pagination);
+
+// 将上面那个Global.vue文件挂载到Vue.prototype
+Vue.prototype.GLOBAL = global_ // 挂在到Vue实例上面
 
 const routes = [
   //给路由添加name属性

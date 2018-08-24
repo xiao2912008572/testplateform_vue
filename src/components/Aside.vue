@@ -27,12 +27,12 @@
         <!-- <el-menu-item-group> -->
         <div v-show="!show" id="menu2">
           <el-menu-item index="/apiManagement">
-            <!-- <i class="fa fa-chevron-left icon"></i> -->
             <i class="el-icon-back icon"></i>
             <span class="menu-item-font">返回列表</span>
           </el-menu-item>
 
           <el-menu-item index="/projectOverview">
+          <!-- <el-menu-item :index="linkUrl($route.path)"> -->
             <i class="fa fa-area-chart icon"></i>
             <span class="menu-item-font">项目概况</span>
           </el-menu-item>
@@ -94,7 +94,8 @@ export default {
   data() {
     return {
       // index: "",
-      show: true
+      show: true,
+      linkPath: ""
     };
   },
   methods: {
@@ -119,7 +120,10 @@ export default {
       }
       // console.log("url", "/" + val.split("/")[1]);
       // ⚠️ 2. 处理路由后面的id值
+
+      // this.linkPath = "/projectOverview/" + this.GLOBAL.projectID;
       return "/" + val.split("/")[1];
+      // return this.linkPath;
     }
   },
   components: {
