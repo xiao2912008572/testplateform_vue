@@ -10,6 +10,7 @@ import global_ from './components/Global.vue'
 import Notification from './components/common/Notification'
 import Pagination from './components/common/Pagination.vue'
 import { routes } from './routes.js'
+import { store } from './store/store'
 
 
 
@@ -37,6 +38,8 @@ const router = new VueRouter({
 
 /* eslint-disable no-new */
 new Vue({
+  //⚠️ 使用store属性: store
+  store: store,
   el: '#app',
   router,
   components: { App },
