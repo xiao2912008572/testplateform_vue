@@ -27,7 +27,7 @@
         <!-- <el-menu-item-group> -->
         <div v-show="!show" id="menu2">
           <el-menu-item index="/apiManagement">
-            <i class="el-icon-back icon"></i>
+            <i class="fa el-icon-back icon"></i>
             <span class="menu-item-font">返回列表</span>
           </el-menu-item>
 

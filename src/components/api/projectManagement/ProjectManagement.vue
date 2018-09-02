@@ -99,23 +99,23 @@ export default {
       value: "",
       options: [
         {
-          value: "1",
+          value: "Web",
           label: "Web"
         },
         {
-          value: "2",
+          value: "App",
           label: "App"
         },
         {
-          value: "3",
+          value: "PC",
           label: "PC"
         },
         {
-          value: "4",
+          value: "硬件/物联网",
           label: "硬件/物联网"
         },
         {
-          value: "5",
+          value: "其他",
           label: "其他"
         }
       ],
@@ -170,7 +170,7 @@ export default {
     // 编辑项目按钮
     handleEdit(index, row) {
       this.dialogTitle = "编辑项目";
-      // console.log(index, row);
+      console.log(index, row);
       this.project.name = row.projectName;
       this.project.version = row.projectVersion;
       this.value = row.projectType;
@@ -274,6 +274,8 @@ export default {
       this.dialogFormVisible = false;
     }
   },
+  computed: {
+  },
   // 在创建之前请求
   created() {
     // ⚠️ 获取项目列表
@@ -286,7 +288,7 @@ export default {
       })
       .then(data => {
         // 打印返回数据
-        // console.log(data);
+        console.log(data);
 
         this.loading = false;
         // 项目详情对象数组
