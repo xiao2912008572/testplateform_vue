@@ -154,8 +154,11 @@ export default {
     handleDetail(index) {
       // 获取当前项目ID，并存入全局变量中以供使用
       // console.log("projectID", this.GLOBAL.projectID);
-      this.GLOBAL.projectID = this.tableData[index].projectID;
-      // alert(this.GLOBAL.projectID)
+
+      // TODO: 尝试使用store.js
+      // this.GLOBAL.projectID = this.tableData[index].projectID;
+
+      store.set("projectID", this.tableData[index].projectID);
     },
 
     // 新增项目按钮
@@ -274,8 +277,7 @@ export default {
       this.dialogFormVisible = false;
     }
   },
-  computed: {
-  },
+  computed: {},
   // 在创建之前请求
   created() {
     // ⚠️ 获取项目列表

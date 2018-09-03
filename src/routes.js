@@ -28,7 +28,7 @@ export const routes = [
   { 'path': '/apiAutoTest', name: "apiAutoTestLink", component: ApiAutoTest },
   { 'path': '/statusCode', name: "statusCodeLink", component: StatusCode },
   { 'path': '/projectDocument', name: "projectDocumentLink", component: ProjectDocument },
-  { 'path': '/envManagement', name: "envManagementLink", component: EnvManagement },
+  { 'path': '/envManagement/:id', name: "envManagementLink", component: EnvManagement },
   { 'path': '/coopManagement', name: "coopManagementLink", component: CoopManagement },
   { 'path': '/projectNews', name: "projectNewsLink", component: ProjectNews },
 

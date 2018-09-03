@@ -38,9 +38,10 @@
 
       <!--表格1 -->
       <el-col style="padding-top:10px;" id="table1">
-        <el-table v-loading="loading" :data="tableData" stripe style="width: 100%;margin-top:-10px;" :header-cell-style="{background:'#eef1f6',color:'#1f2d3d'}">
-          <el-table-column prop="envName" label="环境名称" width="320px">
-          </el-table-column>
+        <el-table v-loading="loading" :data="tableData" stripe style="width: 100%" :header-cell-style="{background:'#eef1f6',color:'#1f2d3d'}">
+          <el-table-column prop="envName" label="环境名称" width="320px"></el-table-column>
+          <el-table-column prop="envDesc" label="备注" width="320px"></el-table-column>
+          <el-table-column prop="uri.uri" label="前置URL" width="320px"></el-table-column>
 
           <el-table-column prop="" label="操作">
             <template slot-scope="scope">
@@ -53,18 +54,25 @@
               <el-button size="mini" type="text" @click="handleDelete(scope.$index, scope.row)">
                 <i class="el-icon-delete"></i>
               </el-button>
+
+              <!-- 详情图标 -->
+              <el-button size="mini" type="text" @click="handleDelete(scope.$index, scope.row)">
+                <i class="el-icon-view"></i>
+              </el-button>
+
+
             </template>
           </el-table-column>
         </el-table>
       </el-col>
 
       <!-- 表格2 -->
-      <el-col id="table2">
+      <!-- <el-col id="table2">
         <p></p>
-      </el-col>
+      </el-col> -->
 
       <!--表单1 -->
-      <el-col style="padding-top:10px;" id="form1">
+      <!-- <el-col style="padding-top:10px;" id="form1">
         <div style="background:rgb(238, 241, 246);height:48px;margin-top:-10px;">
           <font style=""></font>
         </div>
@@ -107,7 +115,7 @@
               <el-button>取消</el-button>
             </el-form-item>
           </el-form>
-      </el-col>
+      </el-col> -->
 
       <!-- 第三列：因为宽度为100% 所以挤下来成了第三行 -->
       <el-col>
@@ -323,7 +331,7 @@ export default {
     this.$http
       .get("http://127.0.0.1:8000/api/v1/env/list/", {
         params: {
-          projectID: this.GLOBAL.projectID,
+          projectID: store.get("projectID"),
           page: 1,
           per_page: 13
         }
@@ -352,24 +360,23 @@ a {
   color: #fff;
   margin: 0 10px;
 }
-#table1 {
+/* #table1 {
   border: solid 1px #dfe6ec;
   margin-top: 20px;
   width: 41%;
-}
-#table2 {
+} */
+/* #table2 {
   width: 2%;
-}
-#form1 {
+} */
+/* #form1 {
   border: solid 1px #dfe6ec;
   margin-top: 20px;
   width: 57%;
   height: 739px;
-}
-#form1 .el-input{
-  /* background: red; */
+} */
+/* #form1 .el-input{
   width: 29%;
   margin-left: 10px;
   margin-right: 5px;
-}
+} */
 </style>

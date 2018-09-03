@@ -5,13 +5,19 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 // 外部如果想引用store，就需要export导出来先
-export const store = new Vuex.store({
+export const store = new Vuex.Store({
   // state: 状态数据
-  state:{
+  state: {
     // 数据
   },
   // getters: getters方法
-  getters:{
+  getters: {
+
+  },
+  mutations: {
+
+  },
+  actions: {
 
   }
 })

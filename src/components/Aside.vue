@@ -5,7 +5,7 @@
     <el-col :span="24">
       <!-- {{$route.path}} -->
 
-      <el-menu :default-active="linkUrl($route.path)" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" theme="dark" router style="background-color: #FAFAFA">
+      <el-menu :default-active="($route.path)" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" theme="dark" router style="background-color: #FAFAFA">
         <!-- show是为了控制显示或者不显示 -->
         <div v-show="show" id="menu1">
           <el-menu-item index="/apiManagement">
@@ -31,8 +31,8 @@
             <span class="menu-item-font">返回列表</span>
           </el-menu-item>
 
-          <el-menu-item index="/projectOverview">
-          <!-- <el-menu-item :index="linkUrl($route.path)"> -->
+          <!-- <el-menu-item index="/projectOverview"> -->
+          <el-menu-item :index="linkUrl($route.path)">
             <i class="fa fa-area-chart icon"></i>
             <span class="menu-item-font">项目概况</span>
           </el-menu-item>
@@ -62,7 +62,8 @@
             <span class="menu-item-font">项目文档</span>
           </el-menu-item>
 
-          <el-menu-item index="/envManagement">
+          <!-- <el-menu-item index="/envManagement"> -->
+          <el-menu-item :index="envManagement">
             <i class="fa fa-cube icon"></i>
             <span class="menu-item-font">环境管理</span>
           </el-menu-item>
@@ -118,16 +119,26 @@ export default {
       } else {
         this.show = false;
       }
-      // console.log("url", "/" + val.split("/")[1]);
-      // ⚠️ 2. 处理路由后面的id值
 
-      // this.linkPath = "/projectOverview/" + this.GLOBAL.projectID;
-      return "/" + val.split("/")[1];
-      // return this.linkPath;
+      // ⚠️ 2. 处理路由后面的id值
+      // console.log("url", "/" + val.split("/")[1]);
+      // return "/" + val.split("/")[1];
+
+      // 拿到现在的projectID
+      var projectID = store.get("projectID");
+
+      this.linkPath = "/projectOverview/" + projectID;
+      return this.linkPath;
     }
   },
   components: {
     projectManagement: ProjectManagement
+  },
+  computed: {
+    envManagement() {
+      var projectID = store.get("projectID");
+      return "/envManagement/" + projectID;
+    }
   }
 };
 </script>
